@@ -10,3 +10,5 @@ GCEContext = namedtuple('GCEContext', [
     'zone',
     'region'
 ])
+# allows optional fields
+GCEContext.__new__.__defaults__ = (None,) * len(GCEContext._fields)

@@ -15,3 +15,12 @@ def test_context_from_config():
     assert ctx.zone == fixtures.configuration["gce_zone"]
     assert ctx.cluster_name == fixtures.configuration["gce_cluster_name"]
     assert ctx.region == fixtures.configuration["gce_region"]
+
+
+def test_context_default_values():
+    """ alllow for optional keys in the configuration with None as default """
+    ctx = get_context({}, fixtures.secrets)
+    assert ctx.project_id == None
+    assert ctx.zone == None
+    assert ctx.cluster_name == None
+    assert ctx.region == None
