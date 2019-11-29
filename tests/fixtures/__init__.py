@@ -8,5 +8,6 @@ secrets = {
 configuration = {
     "gce_project_id": "chaosiqdemos",
     "gce_cluster_name": "demos-cluster",
-    "gce_zone": "us-west1-a"
+    "gce_zone": "us-west1-a",
+    "gce_region": "us-west1",
 }

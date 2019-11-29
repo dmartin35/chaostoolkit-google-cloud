@@ -14,3 +14,4 @@ def test_context_from_config():
     assert ctx.project_id == fixtures.configuration["gce_project_id"]
     assert ctx.zone == fixtures.configuration["gce_zone"]
     assert ctx.cluster_name == fixtures.configuration["gce_cluster_name"]
+    assert ctx.region == fixtures.configuration["gce_region"]
