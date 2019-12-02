@@ -11,6 +11,8 @@
     This new structure intends to follow GCP products navigation, as seen
     on the GCP console to keep some consistency for the user.
 -   New `chaosgcp.gke` package for Google Kubernetes Engine probes & actions.
+-   New `chaosgcp.sql` package for Google Cloud SQL probes and actions: 
+    list, describe and failover instances
 
 ### Changed
 

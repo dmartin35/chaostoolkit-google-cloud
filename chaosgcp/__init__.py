@@ -3,7 +3,8 @@ import os.path
 import time
 from typing import Any, Dict, List
 
-from chaoslib.discovery.discover import discover_actions, initialize_discovery_result
+from chaoslib.discovery.discover import discover_actions, discover_probes, \
+    initialize_discovery_result
 from chaoslib.exceptions import FailedActivity
 from chaoslib.types import Configuration, Discovery, DiscoveredActivities, \
     Secrets
@@ -172,4 +173,6 @@ def load_exported_activities() -> List[DiscoveredActivities]:
     """
     activities = []
     activities.extend(discover_actions("chaosgcp.gke.nodepool.actions"))
+    activities.extend(discover_actions("chaosgcp.sql.actions"))
+    activities.extend(discover_probes("chaosgcp.sql.probes"))
     return activities
