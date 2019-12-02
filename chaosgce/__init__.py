@@ -44,18 +44,16 @@ def get_context(configuration: Configuration,
     )
 
 
-def wait_on_operation(operation_service: Any, project_id: str, zone: str,
-                      operation_id: str) -> Dict[str, Any]:
+def wait_on_operation(operation_service: Any,
+                      **kwargs: Dict) -> Dict[str, Any]:
     """
     Wait until the given operation is completed and return the result.
     """
     while True:
-        logger.debug("Waiting for operation '{}'".format(operation_id))
+        logger.debug("Waiting for operation '{}'".format(
+            kwargs.get('operationId', kwargs.get('operation'))))
 
-        result = operation_service.get(
-            projectId=project_id, zone=zone, operationId=operation_id
-        ).execute()
-
+        result = operation_service.get(**kwargs).execute()
         if result['status'] == 'DONE':
             return result
 
