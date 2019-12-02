@@ -45,7 +45,8 @@ url = 'http://chaostoolkit.org'
 license = 'Apache License Version 2.0'
 packages = [
     'chaosgce',
-    'chaosgce.nodepool'
+    'chaosgce.nodepool',
+    'chaosgce.sql',
 ]
 
 needs_pytest = set(['pytest', 'test']).intersection(sys.argv)

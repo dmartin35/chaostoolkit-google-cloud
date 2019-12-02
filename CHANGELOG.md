@@ -4,6 +4,10 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-google-cloud/compare/0.2.2...HEAD
 
+### Added
+
+-   New sql submodule for Cloud SQL probes and actions (list, describe, failover instance)
+
 ### Changed
 
 -   Refactored wait_on_operation to accept multiple & different keyword arguments

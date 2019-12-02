@@ -164,4 +164,5 @@ def load_exported_activities() -> List[DiscoveredActivities]:
     """
     activities = []
     activities.extend(discover_actions("chaosgce.nodepool.actions"))
+    activities.extend(discover_actions("chaosgce.sql.actions"))
     return activities
