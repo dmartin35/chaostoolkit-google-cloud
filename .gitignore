@@ -105,3 +105,4 @@ junit-test-results.xml
 
 .vscode/
 .cache/
+.idea/

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from collections import namedtuple
 
-__all__ = ["GCEContext"]
+__all__ = ["GCPContext"]
 
 
-GCEContext = namedtuple('GCEContext', [
+GCPContext = namedtuple('GCPContext', [
     'project_id',
     'cluster_name',
     'zone',

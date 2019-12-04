@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import MagicMock, patch
 
-from chaoslib.exceptions import FailedActivity
-from kubernetes import client, config
-import pytest
-
 from chaosgce.nodepool.actions import create_new_nodepool, delete_nodepool, \
     swap_nodepool
 
@@ -12,12 +8,12 @@ import fixtures
 
 
 @patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
-@patch('chaosgce.build', autospec=True)
-@patch('chaosgce.Credentials', autospec=True)
+@patch('chaosgcp.build', autospec=True)
+@patch('chaosgcp.Credentials', autospec=True)
 def test_create_nodepool(Credentials, service_builder, wait_on_operation):
-    project_id = fixtures.configuration["gce_project_id"]
-    cluster_name = fixtures.configuration["gce_cluster_name"]
-    zone = fixtures.configuration["gce_zone"]
+    project_id = fixtures.configuration_legacy["gce_project_id"]
+    cluster_name = fixtures.configuration_legacy["gce_cluster_name"]
+    zone = fixtures.configuration_legacy["gce_zone"]
 
     Credentials.from_service_account_file.return_value = MagicMock()
 
@@ -38,7 +34,7 @@ def test_create_nodepool(Credentials, service_builder, wait_on_operation):
     response = create_new_nodepool(
         body=fixtures.nodepool.body,
         secrets=fixtures.secrets,
-        configuration=fixtures.configuration
+        configuration=fixtures.configuration_legacy
     )
 
     create_np.assert_called_with(
@@ -46,17 +42,17 @@ def test_create_nodepool(Credentials, service_builder, wait_on_operation):
         body=fixtures.nodepool.body)
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration["gce_project_id"],
-        zone=fixtures.configuration["gce_zone"], operation_id="mynodepool")
+        project_id=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
 @patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
-@patch('chaosgce.build', autospec=True)
-@patch('chaosgce.Credentials', autospec=True)
+@patch('chaosgcp.build', autospec=True)
+@patch('chaosgcp.Credentials', autospec=True)
 def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
-    project_id = fixtures.configuration["gce_project_id"]
-    cluster_name = fixtures.configuration["gce_cluster_name"]
-    zone = fixtures.configuration["gce_zone"]
+    project_id = fixtures.configuration_legacy["gce_project_id"]
+    cluster_name = fixtures.configuration_legacy["gce_cluster_name"]
+    zone = fixtures.configuration_legacy["gce_zone"]
 
     Credentials.from_service_account_file.return_value = MagicMock()
 
@@ -77,7 +73,7 @@ def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
     response = delete_nodepool(
         node_pool_id="mynodepool",
         secrets=fixtures.secrets,
-        configuration=fixtures.configuration
+        configuration=fixtures.configuration_legacy
     )
 
     delete_np.assert_called_with(
@@ -85,19 +81,19 @@ def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
         nodePoolId="mynodepool")
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration["gce_project_id"],
-        zone=fixtures.configuration["gce_zone"], operation_id="mynodepool")
+        project_id=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
 @patch('chaosgce.nodepool.actions.drain_nodes', autospec=False)
 @patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
-@patch('chaosgce.build', autospec=True)
-@patch('chaosgce.Credentials', autospec=True)
+@patch('chaosgcp.build', autospec=True)
+@patch('chaosgcp.Credentials', autospec=True)
 def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
                        drain_nodes):
-    project_id = fixtures.configuration["gce_project_id"]
-    cluster_name = fixtures.configuration["gce_cluster_name"]
-    zone = fixtures.configuration["gce_zone"]
+    project_id = fixtures.configuration_legacy["gce_project_id"]
+    cluster_name = fixtures.configuration_legacy["gce_cluster_name"]
+    zone = fixtures.configuration_legacy["gce_zone"]
 
     Credentials.from_service_account_file.return_value = MagicMock()
 
@@ -127,7 +123,7 @@ def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
         new_nodepool_body=fixtures.nodepool.body,
         delete_old_node_pool=True,
         secrets=fixtures.secrets,
-        configuration=fixtures.configuration
+        configuration=fixtures.configuration_legacy
     )
 
     create_np.assert_called_with(
@@ -139,19 +135,19 @@ def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
         nodePoolId="mynodepool")
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration["gce_project_id"],
-        zone=fixtures.configuration["gce_zone"], operation_id="mynodepool")
+        project_id=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
 @patch('chaosgce.nodepool.actions.drain_nodes', autospec=False)
 @patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
-@patch('chaosgce.build', autospec=True)
-@patch('chaosgce.Credentials', autospec=True)
+@patch('chaosgcp.build', autospec=True)
+@patch('chaosgcp.Credentials', autospec=True)
 def test_swap_nodepool_without_delete(Credentials, service_builder,
                                       wait_on_operation, drain_nodes):
-    project_id = fixtures.configuration["gce_project_id"]
-    cluster_name = fixtures.configuration["gce_cluster_name"]
-    zone = fixtures.configuration["gce_zone"]
+    project_id = fixtures.configuration_legacy["gce_project_id"]
+    cluster_name = fixtures.configuration_legacy["gce_cluster_name"]
+    zone = fixtures.configuration_legacy["gce_zone"]
 
     Credentials.from_service_account_file.return_value = MagicMock()
 
@@ -181,7 +177,7 @@ def test_swap_nodepool_without_delete(Credentials, service_builder,
         new_nodepool_body=fixtures.nodepool.body,
         delete_old_node_pool=False,
         secrets=fixtures.secrets,
-        configuration=fixtures.configuration
+        configuration=fixtures.configuration_legacy
     )
 
     create_np.assert_called_with(

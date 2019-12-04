@@ -4,6 +4,13 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-google-cloud/compare/0.2.2...HEAD
 
+### Added
+
+-   New extension structure: 
+    `chaosgcp` package with GCP products as first level subpackage.
+    This new structure intends to follow GCP products navigation, as seen
+    on the GCP console to keep some consistency for the user.
+
 ## [0.2.2][] - 2018-05-14
 
 [0.2.2]: https://github.com/chaostoolkit-incubator/chaostoolkit-google-cloud/compare/0.2.1...0.2.2

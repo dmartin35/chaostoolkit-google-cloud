@@ -1,16 +1,18 @@
-# Chaos Toolkit Extension for Google Cloud Engine
+# Chaos Toolkit Extension for Google Cloud Platform
 
 [![Build Status](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-google-cloud.svg?branch=master)](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-google-cloud)
 [![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-google-cloud.svg)](https://www.python.org/)
 
 This project is a collection of [actions][] and [probes][], gathered as an
 extension to the [Chaos Toolkit][chaostoolkit]. It targets the
-[Google Cloud Engine][gce] platform.
+[Google Cloud Platform][gcp] platform.
 
 [actions]: http://chaostoolkit.org/reference/api/experiment/#action
 [probes]: http://chaostoolkit.org/reference/api/experiment/#probe
 [chaostoolkit]: http://chaostoolkit.org
 [gce]: https://cloud.google.com/compute/
+[gcp]: https://cloud.google.com
+
 
 ## Install
 
@@ -36,7 +38,7 @@ experiment file:
         "type": "python",
         "module": "chaosgce.nodepool.actions",
         "func": "swap_nodepool",
-        "secrets": ["gce"],
+        "secrets": ["gcp"],
         "arguments": {
             "body": {
                 "nodePool": {
@@ -74,10 +76,10 @@ You can pass the context via the `configuration` section of your experiment:
 ```json
 {
     "configuration": {
-        "gce_project_id": "...",
-        "gce_cluster_name": "...",
-        "gce_region": "...",
-        "gce_zone": "..."
+        "gcp_project_id": "...",
+        "gcp_gke_cluster_name": "...",
+        "gcp_region": "...",
+        "gcp_zone": "..."
     }
 }
 ```
@@ -92,7 +94,7 @@ perform its operations. Please create such a service account manually (do not
 use the default one for your cluster if you can, so you'll be able to delete
 that service account if need be).
 
-[sa]: https://developers.google.com/api-client-library/python/auth/service-accounts#creatinganaccount
+[sa]: https://cloud.google.com/iam/docs/creating-managing-service-accounts 
 
 Once you have created your service account, either keep the file on the same
 machine where you will be running the experiment from. Or, pass its content
@@ -104,7 +106,7 @@ Here is the first way:
 ```json
 {
     "secrets": {
-        "gce": {
+        "gcp": {
             "service_account_file": "/path/to/sa.json"
         }
     }
@@ -117,7 +119,7 @@ While the embedded way looks like this:
 ```json
 {
     "secrets": {
-        "gce": {
+        "gcp": {
             "service_account_info": {
                 "type": "service_account",
                 "project_id": "...",
@@ -146,13 +148,13 @@ Here is a full example:
     "title": "...",
     "description": "...",
     "configuration": {
-        "gce_project_id": "...",
-        "gce_cluster_name": "...",
-        "gce_region": "...",
-        "gce_zone": "..."
+        "gcp_project_id": "...",
+        "gcp_gke_cluster_name": "...",
+        "gcp_region": "...",
+        "gcp_zone": "..."
     },
     "secrets": {
-        "gce": {
+        "gcp": {
             "service_account_file": "/path/to/sa.json"
         }
     },
@@ -164,7 +166,7 @@ Here is a full example:
                 "type": "python",
                 "module": "chaosgce.nodepool.actions",
                 "func": "swap_nodepool",
-                "secrets": ["gce"],
+                "secrets": ["gcp"],
                 "arguments": {
                     "body": {
                         "nodePool": {
@@ -205,6 +207,13 @@ into the master branch of the repository. Please, make sure you can abide by
 the rules of the DCO before submitting a PR.
 
 [dco]: https://github.com/probot/dco#how-it-works
+
+If you wish to add a new function to this extension, that is related to a 
+Google Cloud product that is not available yet in this package, please use 
+the product short name or acronym as a first level subpackage (eg. iam, gke, 
+sql, storage, ...). See the list of [GCP products and services][gcp_products].
+
+[gcp_products] https://cloud.google.com/products/
 
 ### Develop
 

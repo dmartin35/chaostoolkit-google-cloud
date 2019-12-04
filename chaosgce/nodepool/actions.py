@@ -3,10 +3,9 @@ from typing import Any, Dict
 
 from chaosk8s.node.actions import drain_nodes
 from chaoslib.types import Configuration, Secrets
-from googleapiclient.discovery import Resource
 from logzero import logger
 
-from chaosgce import wait_on_operation, get_context, get_service
+from chaosgcp import wait_on_operation, get_context, get_service
 
 __all__ = ["create_new_nodepool", "delete_nodepool", "swap_nodepool"]
 
