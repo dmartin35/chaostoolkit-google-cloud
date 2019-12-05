@@ -39,8 +39,8 @@ def create_new_nodepool(body: Dict[str, Any], wait_until_complete: bool = True,
     if wait_until_complete:
         ops = service.projects().zones().operations()
         response = wait_on_operation(
-            ops, project_id=ctx.project_id, zone=ctx.zone,
-            operation_id=response["name"])
+            ops, projectId=ctx.project_id, zone=ctx.zone,
+            operationId=response["name"])
 
     return response
 
@@ -71,8 +71,8 @@ def delete_nodepool(node_pool_id: str, wait_until_complete: bool = True,
     if wait_until_complete:
         ops = service.projects().zones().operations()
         response = wait_on_operation(
-            ops, project_id=ctx.project_id, zone=ctx.zone,
-            operation_id=response["name"])
+            ops, projectId=ctx.project_id, zone=ctx.zone,
+            operationId=response["name"])
 
     return response
 

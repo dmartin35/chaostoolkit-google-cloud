@@ -19,6 +19,7 @@
     `chaosgcp.gke.nodepool.actions`. Please update your experiments to use the
     new package.
 -   Allow optional values in GCPContext
+-   Refactored wait_on_operation to accept multiple & various keyword arguments
 
 ## [0.2.2][] - 2018-05-14
 

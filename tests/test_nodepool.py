@@ -42,8 +42,9 @@ def test_create_nodepool(Credentials, service_builder, wait_on_operation):
         body=fixtures.nodepool.body)
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration_legacy["gce_project_id"],
-        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
+        projectId=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"],
+        operationId="mynodepool")
 
 
 @patch('chaosgcp.gke.nodepool.actions.wait_on_operation', autospec=False)
@@ -81,8 +82,9 @@ def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
         nodePoolId="mynodepool")
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration_legacy["gce_project_id"],
-        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
+        projectId=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"],
+        operationId="mynodepool")
 
 
 @patch('chaosgcp.gke.nodepool.actions.drain_nodes', autospec=False)
@@ -135,8 +137,9 @@ def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
         nodePoolId="mynodepool")
 
     wait_on_operation.assert_called_with(ops_svc,
-        project_id=fixtures.configuration_legacy["gce_project_id"],
-        zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
+        projectId=fixtures.configuration_legacy["gce_project_id"],
+        zone=fixtures.configuration_legacy["gce_zone"],
+        operationId="mynodepool")
 
 
 @patch('chaosgcp.gke.nodepool.actions.drain_nodes', autospec=False)
