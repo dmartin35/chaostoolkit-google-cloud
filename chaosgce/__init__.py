@@ -2,6 +2,7 @@
 import warnings
 
 from logzero import logger
+from chaoslib.types import Discovery
 
 
 DeprecatedChaosGCEMessage = \
@@ -11,3 +12,10 @@ DeprecatedChaosGCEMessage = \
 
 warnings.warn(DeprecatedChaosGCEMessage, DeprecationWarning)
 logger.warn(DeprecatedChaosGCEMessage)
+
+
+def discover(discover_system: bool = True) -> Discovery:
+    """
+    No activity shall be discovered as this package is deprecated
+    """
+    return {}
