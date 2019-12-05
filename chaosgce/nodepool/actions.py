@@ -1,80 +1,84 @@
 # -*- coding: utf-8 -*-
+import warnings
 from typing import Any, Dict
 
-from chaosk8s.node.actions import drain_nodes
 from chaoslib.types import Configuration, Secrets
 from logzero import logger
 
-from chaosgcp import wait_on_operation, get_context, get_service
+import chaosgcp
+from chaosgcp.gke.nodepool.actions import \
+    create_new_nodepool as gke_create_new_nodepool, \
+    delete_nodepool as gke_delete_nodepool, \
+    swap_nodepool as gke_swap_nodepool
+
 
 __all__ = ["create_new_nodepool", "delete_nodepool", "swap_nodepool"]
+
+
+DeprecatedChaosGCEMessage = \
+    "This module `{m}` has been moved to `chaosgcp.gke.nodepool.actions`. "\
+    .format(m=__name__)
+
+DeprecatedFunctionMessage = \
+    "The function `{}.{}` is deprecated and will be removed in a "\
+    "future release. Please use `{}.{}` instead."
+
+warnings.warn(DeprecatedChaosGCEMessage, DeprecationWarning)
+logger.warn(DeprecatedChaosGCEMessage)
 
 
 def create_new_nodepool(body: Dict[str, Any], wait_until_complete: bool = True,
                         configuration: Configuration = None,
                         secrets: Secrets = None) -> Dict[str, Any]:
     """
-    Create a new node pool in the given cluster/zone of the provided project.
+    DEPRECATED
+        This function is now replaced by:
+        chaosgcp.gke.nodepool.actions.create_new_nodepool
 
-    The node pool config must be passed a mapping to the `body` parameter and
-    respect the REST API.
+        It will be removed in a future release,
+        please fix your experiment and switch to using the new API.
+    """
+    msg = DeprecatedFunctionMessage.format(
+        __name__, create_new_nodepool.__name__,
+        chaosgcp.gke.nodepool.actions.__name__,
+        gke_create_new_nodepool.__name__
+    )
+    warnings.warn(msg, DeprecationWarning)
+    logger.warning(msg)
 
-    If `wait_until_complete` is set to `True` (the default), the function
-    will block until the node pool is ready. Otherwise, will return immediatly
-    with the operation information.
-
-    See: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.zones.clusters.nodePools/create
-    """  # noqa: E501
-    ctx = get_context(configuration=configuration, secrets=secrets)
-    service = get_service(
-        'container', configuration=configuration, secrets=secrets)
-    np = service.projects().zones().clusters().nodePools()
-    response = np.create(
-        projectId=ctx.project_id, zone=ctx.zone, clusterId=ctx.cluster_name,
-        body=body
-    ).execute()
-
-    logger.debug("NodePool creation: {}".format(str(response)))
-
-    if wait_until_complete:
-        ops = service.projects().zones().operations()
-        wait_on_operation(
-            ops, project_id=ctx.project_id, zone=ctx.zone,
-            operation_id=response["name"])
-
-    return response
+    return gke_create_new_nodepool(
+        body,
+        wait_until_complete=wait_until_complete,
+        configuration=configuration,
+        secrets=secrets
+    )
 
 
 def delete_nodepool(node_pool_id: str, wait_until_complete: bool = True,
                     configuration: Configuration = None,
                     secrets: Secrets = None) -> Dict[str, Any]:
     """
-    Delete node pool from the given cluster/zone of the provided project.
+    DEPRECATED
+        This function is now replaced by:
+        chaosgcp.gke.nodepool.actions.delete_nodepool
 
-    If `wait_until_complete` is set to `True` (the default), the function
-    will block until the node pool is deleted. Otherwise, will return
-    immediatly with the operation information.
+        It will be removed in a future release,
+        please fix your experiment and switch to using the new API.
+    """
+    msg = DeprecatedFunctionMessage.format(
+        __name__, delete_nodepool.__name__,
+        chaosgcp.gke.nodepool.actions.__name__,
+        gke_delete_nodepool.__name__
+    )
+    warnings.warn(msg, DeprecationWarning)
+    logger.warning(msg)
 
-    See: https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.zones.clusters.nodePools/create
-    """  # noqa: E501
-    ctx = get_context(configuration=configuration, secrets=secrets)
-    service = get_service(
-        'container', configuration=configuration, secrets=secrets)
-    np = service.projects().zones().clusters().nodePools()
-    response = np.delete(
-        projectId=ctx.project_id, zone=ctx.zone, clusterId=ctx.cluster_name,
-        nodePoolId=node_pool_id
-    ).execute()
-
-    logger.debug("NodePool deletion: {}".format(str(response)))
-
-    if wait_until_complete:
-        ops = service.projects().zones().operations()
-        wait_on_operation(
-            ops, project_id=ctx.project_id, zone=ctx.zone,
-            operation_id=response["name"])
-
-    return response
+    return gke_delete_nodepool(
+        node_pool_id,
+        wait_until_complete=wait_until_complete,
+        configuration=configuration,
+        secrets=secrets
+    )
 
 
 def swap_nodepool(old_node_pool_id: str, new_nodepool_body: Dict[str, Any],
@@ -83,30 +87,27 @@ def swap_nodepool(old_node_pool_id: str, new_nodepool_body: Dict[str, Any],
                   configuration: Configuration = None,
                   secrets: Secrets = None) -> Dict[str, Any]:
     """
-    Create a new nodepool, drain the old one so pods can be rescheduled on the
-    new pool. Delete the old nodepool only `delete_old_node_pool` is set to
-    `True`, which is not the default. Otherwise, leave the old node pool
-    cordonned so it cannot be scheduled any longer.
+    DEPRECATED
+        This function is now replaced by:
+        chaosgcp.gke.nodepool.actions.swap_nodepool
+
+        It will be removed in a future release,
+        please fix your experiment and switch to using the new API.
     """
-    new_nodepool_response = create_new_nodepool(
-        body=new_nodepool_body,
-        wait_until_complete=wait_until_complete, configuration=configuration,
-        secrets=secrets)
+    msg = DeprecatedFunctionMessage.format(
+        __name__, swap_nodepool.__name__,
+        chaosgcp.gke.nodepool.actions.__name__,
+        gke_swap_nodepool.__name__
+    )
+    warnings.warn(msg, DeprecationWarning)
+    logger.warning(msg)
 
-    logger.debug("New nodepool '{}' created".format(new_nodepool_response))
-
-    drain_nodes(
-        timeout=drain_timeout, delete_pods_with_local_storage=False,
-        label_selector="cloud.google.com/gke-nodepool={}".format(
-            old_node_pool_id))
-
-    logger.debug("Old nodepool '{}' drained".format(old_node_pool_id))
-
-    if delete_old_node_pool:
-        logger.debug("Deleting now nodepool '{}'".format(old_node_pool_id))
-        delete_nodepool(
-            node_pool_id=old_node_pool_id,
-            wait_until_complete=wait_until_complete,
-            configuration=configuration, secrets=secrets)
-
-    return new_nodepool_response
+    return gke_swap_nodepool(
+        old_node_pool_id,
+        new_nodepool_body,
+        wait_until_complete=wait_until_complete,
+        delete_old_node_pool=delete_old_node_pool,
+        drain_timeout=drain_timeout,
+        configuration=configuration,
+        secrets=secrets
+    )

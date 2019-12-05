@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import MagicMock, patch
 
-from chaosgce.nodepool.actions import create_new_nodepool, delete_nodepool, \
+from chaosgcp.gke.nodepool.actions import create_new_nodepool, delete_nodepool, \
     swap_nodepool
 
 import fixtures
 
 
-@patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.wait_on_operation', autospec=False)
 @patch('chaosgcp.build', autospec=True)
 @patch('chaosgcp.Credentials', autospec=True)
 def test_create_nodepool(Credentials, service_builder, wait_on_operation):
@@ -46,7 +46,7 @@ def test_create_nodepool(Credentials, service_builder, wait_on_operation):
         zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
-@patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.wait_on_operation', autospec=False)
 @patch('chaosgcp.build', autospec=True)
 @patch('chaosgcp.Credentials', autospec=True)
 def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
@@ -85,8 +85,8 @@ def test_delete_nodepool(Credentials, service_builder, wait_on_operation):
         zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
-@patch('chaosgce.nodepool.actions.drain_nodes', autospec=False)
-@patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.drain_nodes', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.wait_on_operation', autospec=False)
 @patch('chaosgcp.build', autospec=True)
 @patch('chaosgcp.Credentials', autospec=True)
 def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
@@ -139,8 +139,8 @@ def test_swap_nodepool(Credentials, service_builder, wait_on_operation,
         zone=fixtures.configuration_legacy["gce_zone"], operation_id="mynodepool")
 
 
-@patch('chaosgce.nodepool.actions.drain_nodes', autospec=False)
-@patch('chaosgce.nodepool.actions.wait_on_operation', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.drain_nodes', autospec=False)
+@patch('chaosgcp.gke.nodepool.actions.wait_on_operation', autospec=False)
 @patch('chaosgcp.build', autospec=True)
 @patch('chaosgcp.Credentials', autospec=True)
 def test_swap_nodepool_without_delete(Credentials, service_builder,

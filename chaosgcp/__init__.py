@@ -172,5 +172,5 @@ def load_exported_activities() -> List[DiscoveredActivities]:
     Extract metadata from actions and probes exposed by this extension.
     """
     activities = []
-    activities.extend(discover_actions("chaosgce.nodepool.actions"))
+    activities.extend(discover_actions("chaosgcp.gke.nodepool.actions"))
     return activities

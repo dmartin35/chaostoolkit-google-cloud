@@ -10,6 +10,14 @@
     `chaosgcp` package with GCP products as first level subpackage.
     This new structure intends to follow GCP products navigation, as seen
     on the GCP console to keep some consistency for the user.
+-   New `chaosgcp.gke` package for Google Kubernetes Engine probes & actions.
+
+### Changed
+
+-   The `chaosgce` package is now deprecated. It will be removed in a future
+    release. The `chaosgce.nodepool.actions` module has been moved to
+    `chaosgcp.gke.nodepool.actions`. Please update your experiments to use the
+    new package.
 
 ## [0.2.2][] - 2018-05-14
 
