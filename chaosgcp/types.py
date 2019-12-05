@@ -10,3 +10,5 @@ GCPContext = namedtuple('GCPContext', [
     'zone',
     'region'
 ])
+# allows optional fields
+GCPContext.__new__.__defaults__ = (None,) * len(GCPContext._fields)

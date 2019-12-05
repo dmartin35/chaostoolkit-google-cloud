@@ -18,6 +18,7 @@
     release. The `chaosgce.nodepool.actions` module has been moved to
     `chaosgcp.gke.nodepool.actions`. Please update your experiments to use the
     new package.
+-   Allow optional values in GCPContext
 
 ## [0.2.2][] - 2018-05-14
 
